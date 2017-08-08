@@ -29,6 +29,8 @@ hexo init /blog && \
 rm -rf /blog/themes/* && \
 npm install --no-optional --save hexo-generator-sitemap && \
 npm install --no-optional --save hexo-generator-feed && \
+npm install --no-optional --save hexo-generator-search && \
+npm install --no-optional --save hexo-generator-searchdb && \
 npm install --no-optional --save hexo-deployer-git && \
 npm install --no-optional --save hexo-deployer-rsync && \
 npm install --no-optional --save hexo-generator-index && \
