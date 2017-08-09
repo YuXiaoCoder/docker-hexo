@@ -1,17 +1,21 @@
 FROM centos:7.3.1611
 
+# 维护者信息
+MAINTAINER YuXiao
+
+# 设置变量
 ENV NodeJS_Version "6.11.2"
 ENV TZ "Asia/Shanghai"
 
 # 修正容器中的时间
 RUN \cp -f /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && rm -f /etc/yum.repos.d/*
 
+# 更换源并安装依赖
 COPY conf/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
-
 RUN yum makecache fast && yum update -y && yum install -y git
 
-COPY src/node-v${NodeJS_Version}-linux-x64.tar.xz /opt/
 # 安装Node.js并更换npm镜像
+COPY src/node-v${NodeJS_Version}-linux-x64.tar.xz /opt/
 RUN \
 tar -Jxf /opt/node-v${NodeJS_Version}-linux-x64.tar.xz -C /usr/local/ && \
 ln -s /usr/local/node-v${NodeJS_Version}-linux-x64 /usr/local/node && \
@@ -19,6 +23,7 @@ ln -s /usr/local/node/bin/* /usr/local/bin/ && \
 npm config set registry https://registry.npm.taobao.org && \
 rm -f /opt/node-v${NodeJS_Version}-linux-x64.tar.xz
 
+# 工作目录
 WORKDIR /blog
 
 # 安装Hexo
@@ -40,7 +45,6 @@ npm install --no-optional --save hexo-tag-dplayer && \
 npm install --no-optional --save hexo-tag-aplayer
 
 # 挂载卷
-#VOLUME ["/blog/source", "/blog/themes", "/blog/_config.yml", "/root/.ssh"]
 VOLUME ["/blog/source", "/blog/themes", "/root/.ssh"]
 
 # 开放端口
@@ -50,4 +54,5 @@ EXPOSE 80
 COPY sh/docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod 764 /docker-entrypoint.sh
 
+# 容器启动时执行脚本
 ENTRYPOINT ["/docker-entrypoint.sh"]

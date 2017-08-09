@@ -16,7 +16,7 @@ shell> docker build -t docker-hexo github.com/YuXiaoCoder/docker-hexo
 
 ```bash
 echo 'export BlogRoot="/blog"' >> /etc/profile
-echo 'export BlogPort=4000' >> /etc/profile
+echo 'export BlogPort=80' >> /etc/profile
 echo 'export GitHub_Name="YuXiaoCoder"' >> /etc/profile
 echo 'export GitHub_Email="xiao.950901@gmail.com"' >> /etc/profile
 source /etc/profile
