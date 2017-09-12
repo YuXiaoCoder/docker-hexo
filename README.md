@@ -30,6 +30,7 @@ docker run -dit -p ${BlogPort}:80 --name "hexo-server" \
 -v ${BlogRoot}/themes:/blog/themes \
 -v ${BlogRoot}/_config.yml:/blog/_config.yml \
 -v /root/.ssh:/root/.ssh \
+--restart=always \
 docker-hexo \
 ${GitHub_Name} \
 ${GitHub_Email} \
