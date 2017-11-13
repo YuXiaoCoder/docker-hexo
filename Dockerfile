@@ -1,10 +1,10 @@
-FROM centos:7.3.1611
+FROM centos:7.4.1708
 
 # 维护者信息
 MAINTAINER YuXiao
 
 # 设置变量
-ENV NodeJS_Version "6.11.2"
+ENV NodeJS_Version "8.9.0"
 ENV TZ "Asia/Shanghai"
 
 # 修正容器中的时间
@@ -31,18 +31,20 @@ RUN \
 npm install -g --no-optional hexo-cli && \
 ln -s /usr/local/node/bin/hexo /usr/local/bin/hexo && \
 hexo init /blog && \
-rm -rf /blog/themes/* && \
+rm -rf /blog/themes/* /blog/source/* && \
 npm install --no-optional --save hexo-generator-sitemap && \
 npm install --no-optional --save hexo-generator-feed && \
 npm install --no-optional --save hexo-generator-search && \
 npm install --no-optional --save hexo-generator-searchdb && \
-npm install --no-optional --save hexo-deployer-git && \
 npm install --no-optional --save hexo-deployer-rsync && \
 npm install --no-optional --save hexo-generator-index && \
 npm install --no-optional --save hexo-generator-archive && \
 npm install --no-optional --save hexo-generator-tag && \
 npm install --no-optional --save hexo-tag-dplayer && \
 npm install --no-optional --save hexo-tag-aplayer
+
+# 未使用的插件
+# npm install --no-optional --save hexo-deployer-git && \
 
 # 挂载卷
 VOLUME ["/blog/source", "/blog/themes", "/root/.ssh"]
