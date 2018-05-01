@@ -1,21 +1,22 @@
-# Docker-Hexo
+## Docker-Hexo
 
-## 起因
+### 起因
 
 1. 每次更换电脑以后，为了写博客就必须去安装`Hexo`，这么繁琐的工作，不愿意重复花时间完成，故封装了`Docker`镜像。
 
-## 使用方法
+### 使用方法
 
-1. 构建镜像：
+1. 构建镜像(耐心等待)：
 
 ```bash
-shell> docker build -t docker-hexo github.com/YuXiaoCoder/docker-hexo
+# 构建完成后, 镜像大小为612MB, 构建时间略短
+docker build --no-cache -t docker-hexo https://github.com/YuXiaoCoder/docker-hexo.git#centos-hexo
 ```
 
 2. 设置环境变量：
 
 ```bash
-echo 'export BlogRoot="/blog"' >> /etc/profile
+echo 'export BlogRoot="/opt/blog"' >> /etc/profile
 echo 'export BlogPort=80' >> /etc/profile
 echo 'export GitHub_Name="YuXiaoCoder"' >> /etc/profile
 echo 'export GitHub_Email="xiao.950901@gmail.com"' >> /etc/profile
@@ -62,25 +63,26 @@ source /etc/bashrc
 6. 创建新文章：
 
 ```bash
-hexo new Name
+hexo new NAME
 ```
 
-7. 更新内容后，重启`Web`服务容器
+7. 更新内容后，重启`Web`服务容器：
 
 ```bash
 docker restart hexo-server
 ```
 
-8. 启动`Web`服务容器
+8. 启动`Web`服务容器：
 
 ```bash
 docker start hexo-server
 ```
 
-9. 部署博客
+9. 启动部署博客的容器：
 
 ```bash
 docker start hexo-deploy
 ```
 
 ***
+
