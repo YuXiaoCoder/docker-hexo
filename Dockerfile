@@ -1,8 +1,8 @@
-FROM centos:7.4.1708
+FROM centos:7.5.1804
 
 MAINTAINER YuXiao
 
-ENV NODEJS_VERSION "8.11.1"
+ENV NODEJS_VERSION "8.11.3"
 ENV TZ "Asia/Shanghai"
 
 RUN \cp -f /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone
