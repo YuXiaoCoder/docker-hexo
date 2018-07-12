@@ -31,16 +31,18 @@ ln -s /usr/local/node/bin/hexo /usr/local/bin/hexo && \
 hexo init /blog && \
 rm -rf /blog/themes/* /blog/source/* && \
 npm install --no-optional --save hexo-generator-sitemap && \
+npm install --no-optional --save hexo-generator-baidu-sitemap && \
 npm install --no-optional --save hexo-generator-feed && \
 npm install --no-optional --save hexo-generator-search && \
 npm install --no-optional --save hexo-generator-searchdb && \
 npm install --no-optional --save hexo-generator-index && \
 npm install --no-optional --save hexo-generator-archive && \
 npm install --no-optional --save hexo-generator-tag && \
+npm install --no-optional --save hexo-generator-category && \
 npm install --no-optional --save hexo-tag-dplayer && \
+npm install --no-optional --save hexo-tag-aplayer && \
 npm install --no-optional --save hexo-deployer-rsync && \
-npm install --no-optional --save hexo-deployer-git && \
-npm install --no-optional --save hexo-tag-aplayer
+npm install --no-optional --save hexo-deployer-git
 
 VOLUME ["/blog/source", "/blog/themes", "/root/.ssh"]
 
