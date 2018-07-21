@@ -42,7 +42,8 @@ npm install --no-optional --save hexo-generator-category && \
 npm install --no-optional --save hexo-tag-dplayer && \
 npm install --no-optional --save hexo-tag-aplayer && \
 npm install --no-optional --save hexo-deployer-rsync && \
-npm install --no-optional --save hexo-deployer-git
+npm install --no-optional --save hexo-deployer-git && \
+npm install --no-optional --save hexo-symbols-count-time
 
 VOLUME ["/blog/source", "/blog/themes", "/root/.ssh"]
 
