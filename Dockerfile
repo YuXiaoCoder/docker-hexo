@@ -1,60 +1,32 @@
-FROM centos:7.5.1804
+FROM node:alpine
 
-MAINTAINER YuXiao
-
-ENV NODEJS_VERSION "8.11.3"
-ENV TZ "Asia/Shanghai"
-
-RUN \cp -f /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone
-
-RUN rm -f /etc/yum.repos.d/*
-COPY conf/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
-RUN yum makecache fast && \
-yum update -y && \
-yum install -y git rsync wget
-
-# Install Node.js
 RUN \
-wget https://npm.taobao.org/mirrors/node/v${NODEJS_VERSION}/node-v${NODEJS_VERSION}-linux-x64.tar.xz -O node.txz && \
-mkdir -p /usr/local/node/ && \
-tar -Jxf node.txz --strip-components=1 -C /usr/local/node/ && \
-ln -s /usr/local/node/bin/* /usr/local/bin/ && \
-npm config set registry https://registry.npm.taobao.org && \
-rm -f node.txz
+  sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
+  apk update && apk upgrade && \
+  npm config set registry https://registry.npm.taobao.org && \
+  npm install -g --no-optional hexo-cli && \
+  npm install -g --no-optional hexo-generator-sitemap && \
+  npm install -g --no-optional hexo-generator-baidu-sitemap && \
+  npm install -g --no-optional hexo-generator-search && \
+  npm install -g --no-optional hexo-generator-searchdb && \
+  npm install -g --no-optional hexo-generator-index && \
+  npm install -g --no-optional hexo-generator-archive && \
+  npm install -g --no-optional hexo-generator-tag && \
+  npm install -g --no-optional hexo-generator-category && \
+  npm install -g --no-optional hexo-tag-dplayer && \
+  npm install -g --no-optional hexo-tag-aplayer && \
+  npm install -g --no-optional hexo-deployer-rsync && \
+  npm install -g --no-optional hexo-deployer-git && \
+  rm -rf /var/cache/apk/*
 
 WORKDIR /blog
-
-# Install Hexo
-RUN \
-npm install -g --no-optional hexo-cli && \
-ln -s /usr/local/node/bin/hexo /usr/local/bin/hexo && \
-hexo init /blog && \
-rm -rf /blog/themes/* /blog/source/* && \
-npm install --no-optional --save hexo-generator-sitemap && \
-npm install --no-optional --save hexo-generator-baidu-sitemap && \
-npm install --no-optional --save hexo-generator-feed && \
-npm install --no-optional --save hexo-generator-search && \
-npm install --no-optional --save hexo-generator-searchdb && \
-npm install --no-optional --save hexo-generator-index && \
-npm install --no-optional --save hexo-generator-archive && \
-npm install --no-optional --save hexo-generator-tag && \
-npm install --no-optional --save hexo-generator-category && \
-npm install --no-optional --save hexo-tag-dplayer && \
-npm install --no-optional --save hexo-tag-aplayer && \
-npm install --no-optional --save hexo-deployer-rsync && \
-npm install --no-optional --save hexo-deployer-git && \
-npm install --no-optional --save hexo-symbols-count-time
 
 VOLUME ["/blog/source", "/blog/themes", "/root/.ssh"]
 
 EXPOSE 80
 
-COPY sh/entrypoint.sh /entrypoint.sh
-RUN \
-chmod 775 /entrypoint.sh && \
-yum clean all
+ADD entrypoint.sh /entrypoint.sh
 
 STOPSIGNAL SIGTERM
 
 ENTRYPOINT ["/entrypoint.sh"]
-

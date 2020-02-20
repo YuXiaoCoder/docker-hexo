@@ -9,7 +9,12 @@
 1. 构建镜像(耐心等待)：
 
 ```bash
+# 方式1
 docker build --no-cache -t docker-hexo https://github.com/YuXiaoCoder/docker-hexo.git#stable
+
+# 方式2
+cd docker-hexo/
+docker build --no-cache --tag docker-hexo .
 ```
 
 2. 设置环境变量：
