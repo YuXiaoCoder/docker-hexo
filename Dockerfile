@@ -3,10 +3,11 @@ FROM node:alpine
 RUN \
   sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
   apk update && apk upgrade && \
+  apk add git rsync && \
   apk add --virtual .build-deps git && \
   npm config set registry https://registry.npm.taobao.org && \
   npm install -g --no-optional hexo-cli && \
-  mkdir -p /blog && hexo init /blog && cd /blog && npm install && \
+  mkdir -p /blog && hexo init /blog && cd /blog && npm --no-optional install && \
   npm install --no-optional hexo-generator-sitemap && \
   npm install --no-optional hexo-generator-baidu-sitemap && \
   npm install --no-optional hexo-generator-search && \
