@@ -1,13 +1,18 @@
 #!/bin/sh
 
-echo "$@" | awk -F ' ' '{print $1}' | xargs -i git config --global user.name {}
-echo "$@" | awk -F ' ' '{print $2}' | xargs -i git config --global user.email {}
-if [[ "$3" = 's' ]] || [[ "$3" = 'server' ]]; then
-    set -- /usr/local/bin/hexo server -p 80
-elif [[ "$3" = 'd' ]] || [[ "$3" = 'deploy' ]]; then
-    set -- /usr/local/bin/hexo clean && /usr/local/bin/hexo deploy --generate
+if [[ -n "${GIT_NAME}" ]] && [[ -n "${GIT_EMAIL}" ]]; then
+    git config --global user.name ${GIT_NAME}
+    git config --global user.email ${GIT_EMAIL}
 fi
 
-# Others
-exec "$@"
-
+if [[ "${MODE}" = "server" ]]; then
+    if [[ -n "${PORT}" ]]; then
+        exec /usr/local/bin/hexo server -p ${PORT}
+    else
+        exec /usr/local/bin/hexo server -p 80
+    fi
+elif [[ "${MODE}" = "deploy" ]]; then
+    set -- /usr/local/bin/hexo clean && /usr/local/bin/hexo deploy --generate
+else
+    exec $@
+fi
