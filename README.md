@@ -19,7 +19,7 @@
 ```bash
 git clone https://github.com/YuXiaoCoder/docker-hexo.git
 cd docker-hexo/
-docker build --no-cache --tag docker-hexo:1.0 .
+docker build --no-cache --tag docker-hexo .
 ```
 
 #### 预览博客
@@ -41,7 +41,7 @@ docker run -d \
   -v /blog/themes:/blog/themes \
   -v /blog/scaffolds:/blog/scaffolds \
   -v /blog/_config.yml:/blog/_config.yml \
-  docker-hexo:1.0
+  docker-hexo
 
 # 指定端口运行
 docker run -d \
@@ -54,7 +54,7 @@ docker run -d \
   -v /blog/themes:/blog/themes \
   -v /blog/scaffolds:/blog/scaffolds \
   -v /blog/_config.yml:/blog/_config.yml \
-  docker-hexo:1.0
+  docker-hexo
 ```
 
 + 更新内容后，若发现内容未自动更新，可尝试重启容器:
@@ -80,7 +80,7 @@ docker run -d \
   -v /blog/themes:/blog/themes \
   -v /blog/scaffolds:/blog/scaffolds \
   -v /blog/_config.yml:/blog/_config.yml \
-  docker-hexo:1.0
+  docker-hexo
 
 # git
 docker run -d \
@@ -94,7 +94,7 @@ docker run -d \
   -v /blog/themes:/blog/themes \
   -v /blog/scaffolds:/blog/scaffolds \
   -v /blog/_config.yml:/blog/_config.yml \
-  docker-hexo:1.0
+  docker-hexo
 ```
 
 + 更新博客后，预览检查无误后，部署博客:
@@ -109,7 +109,7 @@ docker start hexo-deploy
 + 此命令实际上是创建了一个一次性的`Docker`容器。
 
 ```bash
-echo 'alias hexo="docker run --rm -v /blog/source:/blog/source -v /blog/themes:/blog/themes -v /blog/scaffolds:/blog/scaffolds -v /blog/_config.yml:/blog/_config.yml docker-hexo:1.0 hexo"' >> /etc/profile
+echo 'alias hexo="docker run --rm -v /blog/source:/blog/source -v /blog/themes:/blog/themes -v /blog/scaffolds:/blog/scaffolds -v /blog/_config.yml:/blog/_config.yml docker-hexo hexo"' >> /etc/profile
 source /etc/profile
 ```
 
