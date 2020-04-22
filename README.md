@@ -6,9 +6,8 @@
 
 ### 功能
 
-+ [x] 支持本地预览
-+ [x] 支持本地部署
-+ [x] 支持远程部署
++ [x] 支持本地预览，预览草稿
++ [x] 支持本地部署和远程部署
 
 ### 使用方法
 
@@ -29,25 +28,10 @@ docker build --no-cache --tag docker-hexo .
 + 创建`Server`容器：
 
 ```bash
-# 将本机/blog根目录挂载到容器中
-
-# 默认端口为80
 docker run -d \
   --net host \
+  -e PORT=80 \
   -e MODE="server" \
-  --restart=always \
-  --name "hexo-server" \
-  -v /blog/source:/blog/source \
-  -v /blog/themes:/blog/themes \
-  -v /blog/scaffolds:/blog/scaffolds \
-  -v /blog/_config.yml:/blog/_config.yml \
-  docker-hexo
-
-# 指定端口运行
-docker run -d \
-  --net host \
-  -e MODE="server" \
-  -e PORT=4000 \
   --restart=always \
   --name "hexo-server" \
   -v /blog/source:/blog/source \
@@ -67,10 +51,9 @@ docker restart hexo-server
 
 + 此容器用于部署博客，支持`rsync`和`git`，使用`git`时，需要传入`NAME`和`EMAIL`:
 
-+ 创建`Deploy`容器：
++ 创建`Rsync`容器：
 
 ```bash
-# rsync
 docker run -d \
   --net host \
   -e MODE="deploy" \
@@ -81,8 +64,11 @@ docker run -d \
   -v /blog/scaffolds:/blog/scaffolds \
   -v /blog/_config.yml:/blog/_config.yml \
   docker-hexo
+```
 
-# git
++ 创建`Git`容器：
+
+```bash
 docker run -d \
   --net host \
   -e MODE="deploy" \
@@ -111,6 +97,26 @@ docker start hexo-deploy
 ```bash
 echo 'alias hexo="docker run --rm -v /blog/source:/blog/source -v /blog/themes:/blog/themes -v /blog/scaffolds:/blog/scaffolds -v /blog/_config.yml:/blog/_config.yml docker-hexo hexo"' >> /etc/profile
 source /etc/profile
+```
+
+### 常用命令
+
++ 创建文章：
+
+```bash
+hexo new <Title>
+```
+
++ 创建草稿：
+
+```bash
+hexo new draft <Title>
+```
+
++ 将草稿发布为文章：
+
+```bash
+hexo publish <Title>
 ```
 
 ***

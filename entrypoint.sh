@@ -7,9 +7,9 @@ fi
 
 if [[ "${MODE}" = "server" ]]; then
     if [[ -n "${PORT}" ]]; then
-        exec /usr/local/bin/hexo server -p ${PORT}
+        exec /usr/local/bin/hexo server -p ${PORT} --draft
     else
-        exec /usr/local/bin/hexo server -p 80
+        exec /usr/local/bin/hexo server -p 80 --draft
     fi
 elif [[ "${MODE}" = "deploy" ]]; then
     set -- /usr/local/bin/hexo clean && /usr/local/bin/hexo deploy --generate
